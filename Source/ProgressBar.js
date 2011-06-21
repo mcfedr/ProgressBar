@@ -23,14 +23,13 @@ var ProgressBar = new Class({
 
 	//options
 	options: {
-		container: document.body,
-		boxID:'progress-bar-box-id',
-		percentageID:'progress-bar-percentage-id',
-		displayID:'progress-bar-display-id',
+		boxClass:'progress-bar-box-id',
+		percentageClass:'progress-bar-percentage-id',
+		displayClass:'progress-bar-display-id',
 		startPercentage: 0,
 		displayText: false,
 		speed:10,
-		step:1,
+		step:10,
 		allowMore: false/*,
 		onComplete: $empty,
 		onChange: $empty*/
@@ -38,52 +37,53 @@ var ProgressBar = new Class({
 
 	//initialization
 	initialize: function(options) {
-		//set options
 		this.setOptions(options);
-		//quick container
-		this.options.container = document.id(this.options.container);
-		//create elements
-		this.createElements();
+		document.id(this);
+		this.morph = new Fx.Morph(this.perc, {
+			duration: this.options.speed,
+			link:'cancel',
+			onComplete: function() {
+				this.fireEvent('change',[this.to]);
+				if(this.to >= 100) this.fireEvent('complete',[this.to]);
+			}.bind(this)
+		});
+		
+		this.set(this.options.startPercentage);
 	},
 
 	//creates the box and percentage elements
-	createElements: function() {
-		var box = new Element('div', { 
-			id:this.options.boxID 
-		}).inject(this.options.container);
-		var perc = new Element('div', { 
-			id:this.options.percentageID, 
-			style:'width:0px;' 
-		}).inject(box);
-		if(this.options.displayText) { 
-			var text = new Element('div', { 
-				id:this.options.displayID 
-			}).inject(this.options.container);
+	toElement: function() {
+		if(!this.element) {
+			this.element = new Element('div', { 
+				'class':this.options.boxClass 
+			});
+			this.perc = new Element('div', { 
+				'class':this.options.percentageClass, 
+				style:'width:0px;' 
+			}).inject(this.element);
+
+			if(this.options.displayText) { 
+				this.text = new Element('div', { 
+					'class':this.options.displayClass 
+				}).inject(this.element);
+			}	
 		}
-		this.set(this.options.startPercentage);
+		return this.element;
 	},
 
 	//calculates width in pixels from percentage
 	calculate: function(percentage) {
-		return (document.id(this.options.boxID).getStyle('width').replace('px','') * (percentage / 100)).toInt();
+		return (this.element.getStyle('width').replace('px','') * (percentage / 100)).toInt();
 	},
 
 	//animates the change in percentage
 	animate: function(go) {
-		var run = false, self = this;
-		if(!self.options.allowMore && go > 100) go = 100;
-		self.to = go.toInt();
-		document.id(self.options.percentageID).set('morph', { 
-			duration: this.options.speed,
-			link:'cancel',
-			onComplete: function() {
-				self.fireEvent('change',[self.to]);
-				if(go >= 100) self.fireEvent('complete',[self.to]);
-			}
-		}).morph({
-			width:self.calculate(go)
+		if(!this.options.allowMore && go > 100) go = 100;
+		this.to = go.toInt();
+		this.morph.start({
+			width:this.calculate(go)
 		});
-		if(self.options.displayText) document.id(self.options.displayID).set('text', self.to + '%'); 
+		if(this.options.displayText) this.text.set('text', this.to + '%'); 
 	},
 
 	//sets the percentage from its current state to desired percentage
