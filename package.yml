@@ -1,7 +1,7 @@
 name:  ProgressBar
-author:  davidwalsh
+author:  [davidwalsh,mcfedr]
 current:  1.2
 category:  Interface
 tags:  [progress,fx,forms,images]
-docs:  http://davidwalsh.name/js/progressbar
+docs:  https://github.com/mcfedr/ProgressBar
 demo:  http://davidwalsh.name/js/progressbar

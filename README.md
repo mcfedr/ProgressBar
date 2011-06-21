@@ -9,18 +9,17 @@ How to Use
 ----------
 
 ProgressBar can be initialized at any time but is generally initialized at the top of the document during the page's normal load.  There are no required arguments -- only options.
-	
+
 ### HTML
 	<div id="put-bar-here2"></div>
 	
 ### Javascript
 	var pb = new dwProgressBar({
-		container: $('put-bar-here2'),
 		startPercentage: 10,
 		speed:1000,
-		boxID: 'box2',
-		percentageID: 'perc2',
-		displayID: 'text',
+		boxClass: 'pb-box',
+		percentageClass: 'pb-perc',
+		displayClass: 'pb-text',
 		displayText: true,
 		step:15,
 		onComplete: function() {
@@ -30,5 +29,34 @@ ProgressBar can be initialized at any time but is generally initialized at the t
 			alert('Changed!');
 		}
 	});
+	document.id(pb).inject($('put-bar-here2'));
+	
+### CSS
+	.pb-box {
+		width:300px;
+		height:15px;
+		background-color:white;
+		border:2px solid black;
+		border-radius:2px;
+		position:relative;
+	}
+	.pb-perc {
+		position:absolute;
+		top:0;
+		left:0;
+		bottom:0;
+		background-color:red;
+		/* This elements width will be changed to show progress */
+	}
+	.pb-text {
+		position:absolute;
+		top:0;
+		left:0;
+		bottom:0;
+		right:0;
+		line-height:15px;
+		height:10px;
+		text-align:center;
+	}
 
-For specific usage and options, please read the documentation or visit [http://davidwalsh.name/js/progressbar](http://davidwalsh.name/js/progressbar)
+For specific usage and options, please read the documentation or visit [https://github.com/mcfedr/ProgressBar/blob/master/Docs/ProgressBar.md](https://github.com/mcfedr/ProgressBar/blob/master/Docs/ProgressBar.md)

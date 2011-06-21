@@ -24,10 +24,9 @@ ProgressBar Method: constructor {#ProgressBar:constructor}
 
 ### Options:
 
-* container - (*string*)  The progress bar's container ID.
-* boxID - (*string*)  The ID of the box  that contains the progress bar.
-* percentageID - (*string*) The ID of the "percentage" element.
-* displayID - (*string*)  The ID of the "display" element.
+* boxClass - (*string*)  The class of the box  that contains the progress bar.
+* percentageClass - (*string*) The class of the "percentage" element.
+* displayClass - (*string*)  The class of the "display" element.
 * startPercentage - (*integer*)  The percentage to start the progress bar at.
 * displayText - (*boolean*, defaults to false)  Should the percentage be displayed as text?
 * speed - (*integer*, defaults to 10)  The speed at which the progress bar should advance to the next percentage.
