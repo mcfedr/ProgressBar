@@ -4,6 +4,7 @@ description:     ProgressBar
 
 authors:
   - David Walsh (http://davidwalsh.name)
+  - Fred Cox (http://www.fedr.co)
 
 license:
   - MIT-style license
